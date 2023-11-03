@@ -3,13 +3,13 @@ package conf
 import (
 	"strings"
 
-	"github.com/golang/protobuf/proto"
 	"github.com/sagernet/sing-shadowsocks/shadowaead_2022"
 	C "github.com/sagernet/sing/common"
 	"github.com/xtls/xray-core/common/protocol"
 	"github.com/xtls/xray-core/common/serial"
 	"github.com/xtls/xray-core/proxy/shadowsocks"
 	"github.com/xtls/xray-core/proxy/shadowsocks_2022"
+	"google.golang.org/protobuf/proto"
 )
 
 func cipherFromString(c string) shadowsocks.CipherType {
@@ -155,14 +155,15 @@ func buildShadowsocks2022(v *ShadowsocksServerConfig) (proto.Message, error) {
 }
 
 type ShadowsocksServerTarget struct {
-	Address  *Address `json:"address"`
-	Port     uint16   `json:"port"`
-	Cipher   string   `json:"method"`
-	Password string   `json:"password"`
-	Email    string   `json:"email"`
-	Level    byte     `json:"level"`
-	IVCheck  bool     `json:"ivCheck"`
-	UoT      bool     `json:"uot"`
+	Address    *Address `json:"address"`
+	Port       uint16   `json:"port"`
+	Cipher     string   `json:"method"`
+	Password   string   `json:"password"`
+	Email      string   `json:"email"`
+	Level      byte     `json:"level"`
+	IVCheck    bool     `json:"ivCheck"`
+	UoT        bool     `json:"uot"`
+	UoTVersion int      `json:"uotVersion"`
 }
 
 type ShadowsocksClientConfig struct {
@@ -193,6 +194,7 @@ func (v *ShadowsocksClientConfig) Build() (proto.Message, error) {
 			config.Method = server.Cipher
 			config.Key = server.Password
 			config.UdpOverTcp = server.UoT
+			config.UdpOverTcpVersion = uint32(server.UoTVersion)
 			return config, nil
 		}
 	}

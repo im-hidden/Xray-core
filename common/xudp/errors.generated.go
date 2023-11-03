@@ -1,4 +1,4 @@
-package xtls
+package xudp
 
 import "github.com/xtls/xray-core/common/errors"
 
